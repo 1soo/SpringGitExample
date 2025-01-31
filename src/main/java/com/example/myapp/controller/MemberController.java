@@ -36,6 +36,7 @@ public class MemberController {
 	
     @GetMapping
     public ResponseEntity<CollectionModel<EntityModel<Member>>> getAllMembers() {
+    	System.out.println("이미 성공했어");
         List<EntityModel<Member>> members = memberService.getAllMembers().stream()
                 .map(assembler::toModel)
                 .collect(Collectors.toList());

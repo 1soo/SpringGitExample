@@ -43,6 +43,10 @@ jobs:
         shell: powershell
         run: |
           $imageName = "${{ secrets.DOCKER_IMAGE_NAME }}"
+          if ($imageName -eq "") {
+            Write-Host "ERROR: DOCKER_IMAGE_NAME is empty!"
+            exit 1
+          }
           try {
             Write-Host "Attempting to remove image: $imageName"
             docker rmi -f $imageName
@@ -51,6 +55,11 @@ jobs:
             Write-Host "Failed to remove image: $imageName"
             Write-Host "Error: $_"
           }
+
+      - name: Debug Secrets
+        shell: powershell
+        run: |
+          Write-Host "DOCKER_IMAGE_NAME from secrets: '${{ secrets.DOCKER_IMAGE_NAME }}'"
 
       # 5. Docker 이미지 빌드
       - name: Build Docker image
